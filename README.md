@@ -41,6 +41,11 @@ Task 4
 
 # Output
 
+![Image](https://github.com/user-attachments/assets/d9ac39c5-7e1a-477d-99cd-43961bf6e69e)
+
+![Image](https://github.com/user-attachments/assets/24b3b5a0-aca1-4e14-8137-ceecb65b340f)
+
+
 
 
 
