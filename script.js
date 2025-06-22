@@ -1,112 +1,95 @@
-const inputBox = document.getElementById('inputBox');
-const addBtn = document.getElementById('addBtn');
-const todoList = document.getElementById('todoList');
+window.addEventListener("load", () => {
+  const form = document.querySelector("#new-task-form");
+  const input = document.querySelector("#new-task-input");
+  const dateTimeInput = document.querySelector("#new-task-datetime");
+  const list_el = document.querySelector("#tasks");
 
-let editTodo = null;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-// Add or Edit To-Do
-const addTodo = () => {
-    const inputText = inputBox.value.trim();
-    if (inputText === "") {
-        alert("You must write something in your to-do");
-        return;
+    const taskText = input.value.trim();
+    const taskDateTime = dateTimeInput.value;
+
+    if (taskText === "") {
+      alert("Please enter a task");
+      return;
     }
 
-    const now = new Date();
-    const time = now.toLocaleString();
+    // Task wrapper
+    const task_el = document.createElement("div");
+    task_el.classList.add("task");
 
-    if (addBtn.value === "Edit") {
-        const oldText = editTodo.target.previousElementSibling.previousElementSibling.innerHTML;
-        updateLocalTodo(oldText, inputText, time);
-        editTodo.target.previousElementSibling.previousElementSibling.innerHTML = inputText;
-        editTodo.target.previousElementSibling.innerHTML = time;
-        addBtn.value = "Add";
-        inputBox.value = "";
-    } else {
-        createTodoElement(inputText, time);
-        saveLocalTodo({ text: inputText, time: time });
-        inputBox.value = "";
-    }
-};
+    // Content wrapper
+    const content_el = document.createElement("div");
+    content_el.classList.add("content");
 
-// Create and Display To-Do
-const createTodoElement = (text, time) => {
-    const li = document.createElement("li");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
 
-    const p = document.createElement("p");
-    p.innerText = text;
+    const task_input_el = document.createElement("input");
+    task_input_el.classList.add("text");
+    task_input_el.type = "text";
+    task_input_el.value = taskText;
+    task_input_el.setAttribute("readonly", "readonly");
 
-    const span = document.createElement("span");
-    span.innerText = time;
-    span.style.fontSize = "12px";
-    span.style.marginLeft = "10px";
-    span.style.color = "#555";
+    content_el.appendChild(checkbox);
+    content_el.appendChild(task_input_el);
 
-    const editBtn = document.createElement("button");
-    editBtn.innerText = "Edit";
-    editBtn.classList.add("btn", "editBtn");
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerText = "Remove";
-    deleteBtn.classList.add("btn", "deleteBtn");
-
-    li.appendChild(p);
-    li.appendChild(span);
-    li.appendChild(editBtn);
-    li.appendChild(deleteBtn);
-    todoList.appendChild(li);
-};
-
-// Handle Edit or Delete
-const updateTodo = (e) => {
-    const target = e.target;
-    const li = target.parentElement;
-
-    if (target.innerText === "Remove") {
-        const text = li.children[0].innerText;
-        deleteLocalTodo(text);
-        todoList.removeChild(li);
+    // DateTime display
+    if (taskDateTime) {
+      const timeSpan = document.createElement("span");
+      timeSpan.classList.add("text");
+      timeSpan.style.fontSize = "0.85rem";
+      timeSpan.style.color = "#aaa";
+      timeSpan.innerText = `🕒 Due : ${new Date(taskDateTime).toLocaleString()}`;
+      content_el.appendChild(timeSpan);
     }
 
-    if (target.innerText === "Edit") {
-        inputBox.value = li.children[0].innerText;
-        inputBox.focus();
-        addBtn.value = "Edit";
-        editTodo = e;
-    }
-};
+    // Actions
+    const actions_el = document.createElement("div");
+    actions_el.classList.add("actions");
 
-// Save to localStorage
-const saveLocalTodo = (todo) => {
-    let todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [];
-    todos.push(todo);
-    localStorage.setItem("todos", JSON.stringify(todos));
-};
+    const edit_btn = document.createElement("button");
+    edit_btn.classList.add("edit");
+    edit_btn.innerText = "Edit";
 
-// Get from localStorage on page load
-const getLocalTodos = () => {
-    let todos = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : [];
-    todos.forEach(todo => createTodoElement(todo.text, todo.time));
-};
+    const delete_btn = document.createElement("button");
+    delete_btn.classList.add("delete");
+    delete_btn.innerText = "Delete";
 
-// Delete from localStorage
-const deleteLocalTodo = (text) => {
-    let todos = JSON.parse(localStorage.getItem("todos"));
-    todos = todos.filter(todo => todo.text !== text);
-    localStorage.setItem("todos", JSON.stringify(todos));
-};
+    actions_el.appendChild(edit_btn);
+    actions_el.appendChild(delete_btn);
 
-// Update in localStorage
-const updateLocalTodo = (oldText, newText, newTime) => {
-    let todos = JSON.parse(localStorage.getItem("todos"));
-    const index = todos.findIndex(todo => todo.text === oldText);
-    if (index !== -1) {
-        todos[index] = { text: newText, time: newTime };
-        localStorage.setItem("todos", JSON.stringify(todos));
-    }
-};
+    task_el.appendChild(content_el);
+    task_el.appendChild(actions_el);
 
-// Event Listeners
-document.addEventListener("DOMContentLoaded", getLocalTodos);
-addBtn.addEventListener("click", addTodo);
-todoList.addEventListener("click", updateTodo);
+    list_el.appendChild(task_el);
+
+    input.value = "";
+    dateTimeInput.value = "";
+
+    // ✅ Completed toggle
+    checkbox.addEventListener("change", () => {
+      task_el.classList.toggle("completed", checkbox.checked);
+    });
+
+    // ✅ Edit
+    edit_btn.addEventListener("click", () => {
+      if (edit_btn.innerText.toLowerCase() === "edit") {
+        edit_btn.innerText = "Save";
+        task_input_el.removeAttribute("readonly");
+        task_input_el.focus();
+      } else {
+        edit_btn.innerText = "Edit";
+        task_input_el.setAttribute("readonly", "readonly");
+      }
+    });
+
+    // ✅ Delete
+    delete_btn.addEventListener("click", () => {
+      list_el.removeChild(task_el);
+    });
+  });
+});
+
+   
