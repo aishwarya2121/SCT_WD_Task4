@@ -1,102 +1,151 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body{
-    background-color: rgb(232, 238, 238);
+:root {
+  --dark: #374151;
+  --darker: #1f2937;
+  --darkest: #111827;
+  --grey: #6b7280;
+  --pink: #ec4899;
+  --purple: #8b5cf6;
+  --light: #eee;
 }
 
-.container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Fira Sans", sans-serif;
 }
 
-.input-container{
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    padding: 20px;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #fff;
+  background-color: var(--dark);
 }
 
-.input-container input{
-    border: none;
-    outline: none;
-    padding: 12px;
-    margin-block: 12px;
-    border-radius: 4px;
-    font-size: 16px;
+header {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.input-container input[type="text"]{
-    width: 70%;
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--grey);
+  margin-bottom: 1rem;
 }
 
-.input-container input[type="button"]{
-    background-color: #3da33d;
-    color: #fff;
-    font-weight: 700;
-    margin-left: 8px;
-    cursor: pointer;
-    padding: 12px 24px;
+#new-task-form {
+  display: flex;
+  gap: 1rem;
 }
 
-.input-container input[type="button"]:hover{
-    background-color: #60b160;
+input, button {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
 }
 
-ul{
-    width: 70%;
-    max-width: 450px;
-    /* display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center; */
+#new-task-input, #new-task-datetime {
+  flex: 1 1 0%;
+  background-color: var(--darker);
+  padding: 1rem;
+  border-radius: 1rem;
+  color: var(--light);
+  font-size: 1rem;
 }
 
-ul li{
-    list-style-type: none;
-    cursor: pointer;
-    margin-block-end: 12px;
-    border-radius: 8px;
-    border: 0.125px solid #a19f9f;
-    padding: 6px 12px;
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: background-color 0.5s;
+#new-task-input::placeholder {
+  color: var(--grey);
 }
 
-ul li:hover{
-    background-color: #cbcaca;
+#new-task-submit {
+  color: var(--pink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  background-image: linear-gradient(to right, var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+  transition: 0.4s;
 }
 
-ul li p{
-    flex-grow: 1;
-    padding: 2px;
-}
-.btn{
-    border: none;
-    outline: none;
-    font-size: 16px;
-    background: none;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 8px;
+main {
+  flex: 1 1 0%;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.deleteBtn{
-    color: #ff0000;
+.task-list {
+  padding: 1rem;
 }
 
-.editBtn{
-    color: #008000;
+.task-list h2 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--grey);
+  margin-bottom: 1rem;
 }
+
+#tasks .task {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--darkest);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.task .content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task .content .text {
+  color: var(--light);
+  font-size: 1.125rem;
+  display: block;
+}
+
+.task .actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.task .actions .edit {
+  background-image: linear-gradient(to right, var(--pink), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.task .actions .delete {
+  color: crimson;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.task input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+  accent-color: var(--purple);
+}
+
+.task.completed {
+  opacity: 0.7;
+  background-color: #2d3748;
+}
+
+.task.completed .text {
+  text-decoration: line-through;
+  color: #888;
+}
+
+
