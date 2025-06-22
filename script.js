@@ -68,12 +68,12 @@ window.addEventListener("load", () => {
     input.value = "";
     dateTimeInput.value = "";
 
-    // ✅ Completed toggle
+    // Completed toggle
     checkbox.addEventListener("change", () => {
       task_el.classList.toggle("completed", checkbox.checked);
     });
 
-    // ✅ Edit
+    //  Edit
     edit_btn.addEventListener("click", () => {
       if (edit_btn.innerText.toLowerCase() === "edit") {
         edit_btn.innerText = "Save";
@@ -85,7 +85,7 @@ window.addEventListener("load", () => {
       }
     });
 
-    // ✅ Delete
+    //  Delete
     delete_btn.addEventListener("click", () => {
       list_el.removeChild(task_el);
     });
